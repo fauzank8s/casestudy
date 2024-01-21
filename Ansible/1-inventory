@@ -1,0 +1,6 @@
+[loadbalancer]
+node1
+
+[backend]
+node2
+node3

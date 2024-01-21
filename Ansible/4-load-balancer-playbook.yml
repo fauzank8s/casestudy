@@ -1,0 +1,19 @@
+- name: Load balancer
+ hosts: loadbalancer
+ become: true
+ tasks:
+ - name: Copy the Nginx config file and restart nginx
+   copy:
+      src: ./4-load-balancer.conf
+      dest: /etc/nginx/sites-available/4-load-balancer.conf
+
+ - name: Create symlink
+   file:
+        src: /etc/nginx/sites-available/4-load-balancer.conf
+        dest: /etc/nginx/sites-enabled/4-load-balancer.conf
+        state: link
+        
+ - name: Restart nginx
+   service:
+      name: nginx
+      state: restarted

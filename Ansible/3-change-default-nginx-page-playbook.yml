@@ -1,0 +1,24 @@
+- name: Change default nginx welcome page
+ hosts: backend
+ become: true
+ tasks:
+ - name: copy index.html
+   copy:
+      src: index.html
+      dest: /var/www/html
+
+ - name: Copy the Nginx config file and restart nginx
+   copy:
+      src: ./3-backend.conf
+      dest: /etc/nginx/sites-available/3-backend.conf
+
+ - name: Create symlink
+   file:
+        src: /etc/nginx/sites-available/3-backend.conf
+        dest: /etc/nginx/sites-enabled/3-backend.conf
+        state: link
+        
+ - name: Restart nginx
+   service:
+      name: nginx
+      state: restarted
